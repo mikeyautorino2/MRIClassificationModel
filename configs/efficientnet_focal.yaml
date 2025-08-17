@@ -1,0 +1,36 @@
+# EfficientNet with Focal Loss configuration
+
+# Inherit from base config and override specific settings
+defaults:
+  - base_config
+
+# Override model settings
+model:
+  name: "efficientnet_b0"
+  dropout_rate: 0.3
+  use_mc_dropout: true
+
+# Override loss settings for focal loss
+loss:
+  name: "focal"
+  params:
+    alpha: [0.25, 0.75, 1.0, 0.5]  # class-specific weights
+    gamma: 2.0
+
+# Override training settings
+training:
+  num_epochs: 150
+  save_dir: "experiments/efficientnet_focal"
+  use_mixup: true
+  use_cutmix: false
+
+# Evaluation with uncertainty
+evaluation:
+  use_uncertainty: true
+  mc_samples: 50
+
+# Experiment tracking
+experiment:
+  name: "mri_classification_efficientnet_focal"
+  tags: ["efficientnet", "focal_loss", "mc_dropout"]
+  notes: "EfficientNet-B0 with Focal Loss and MC Dropout for uncertainty"

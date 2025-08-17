@@ -1,0 +1,50 @@
+# U-Net configuration for segmentation
+
+# Inherit from base config
+defaults:
+  - base_config
+
+# Override model settings for segmentation
+model:
+  name: "unet2d"
+  n_channels: 3
+  n_classes: 4
+  bilinear: false
+
+# Override data settings
+data:
+  batch_size: 16
+  image_size: [256, 256]
+
+# Override loss for segmentation
+loss:
+  name: "dice_bce"
+  params:
+    dice_weight: 0.7
+    bce_weight: 0.3
+    smooth: 1e-6
+
+# Override training settings
+training:
+  num_epochs: 200
+  save_dir: "experiments/segmentation_unet"
+  task_type: "segmentation"
+  use_mixup: false
+  use_cutmix: false
+
+# Override optimizer
+optimizer:
+  learning_rate: 1e-4
+  weight_decay: 1e-5
+
+# Override scheduler
+scheduler:
+  name: "cosine"
+  params:
+    eta_min: 1e-7
+
+# Experiment tracking
+experiment:
+  name: "mri_segmentation_unet2d"
+  tags: ["segmentation", "unet", "dice_bce"]
+  notes: "2D U-Net for MRI tumor segmentation"

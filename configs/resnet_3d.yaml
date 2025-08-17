@@ -1,0 +1,47 @@
+# 3D ResNet configuration for volumetric analysis
+
+# Inherit from base config
+defaults:
+  - base_config
+
+# Override model settings for 3D
+model:
+  name: "r3d_18"
+  num_classes: 4
+  pretrained: true
+  dropout_rate: 0.25
+
+# Override data settings for 3D
+data:
+  batch_size: 16  # Smaller batch size for 3D models
+  image_size: [112, 112, 16]  # [H, W, D]
+  use_slice_dataset: true
+  num_slices: 16
+  slice_selection: "uniform"
+
+# Override loss for class imbalance
+loss:
+  name: "combo"
+  params:
+    ce_weight: 0.4
+    dice_weight: 0.4
+    focal_weight: 0.2
+    gamma: 2.0
+
+# Adjust optimizer for 3D model
+optimizer:
+  learning_rate: 5e-4
+  weight_decay: 1e-3
+
+# Training settings
+training:
+  num_epochs: 80
+  save_dir: "experiments/resnet_3d"
+  use_mixup: false
+  use_cutmix: true
+
+# Experiment tracking
+experiment:
+  name: "mri_classification_r3d_18"
+  tags: ["3d", "resnet", "volumetric", "combo_loss"]
+  notes: "3D ResNet-18 for volumetric MRI analysis"

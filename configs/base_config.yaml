@@ -1,0 +1,74 @@
+# Base configuration for MRI classification experiments
+
+# Data configuration
+data:
+  data_dir: "data"
+  batch_size: 32
+  num_workers: 4
+  image_size: [224, 224]
+  use_weighted_sampling: true
+  use_albumentations: true
+
+# Model configuration
+model:
+  name: "efficientnet_b0"  # efficientnet_b0, resnet50, slice_efficientnet_b0, r3d_18, videoresnet3d
+  num_classes: 4
+  pretrained: true
+  dropout_rate: 0.2
+  use_mc_dropout: false
+  aggregation_method: "mean"  # for slice models: mean, attention, max
+
+# Loss configuration
+loss:
+  name: "weighted_ce"  # cross_entropy, weighted_ce, focal, dice, dice_bce, combo
+  params:
+    alpha: null  # for focal loss
+    gamma: 2.0   # for focal loss
+    smoothing: 0.1  # for label smoothing
+
+# Optimizer configuration
+optimizer:
+  name: "adamw"
+  learning_rate: 1e-3
+  weight_decay: 1e-4
+  params:
+    betas: [0.9, 0.999]
+
+# Scheduler configuration
+scheduler:
+  name: "cosine_warmup"
+  params:
+    warmup_epochs: 5
+    eta_min: 1e-6
+
+# Training configuration
+training:
+  num_epochs: 100
+  use_amp: true
+  use_wandb: false
+  save_dir: "experiments/base_experiment"
+  task_type: "classification"
+  log_interval: 1
+  
+  # Augmentation
+  use_mixup: true
+  use_cutmix: true
+  
+  # Early stopping
+  early_stopping:
+    enabled: true
+    patience: 10
+    min_delta: 1e-4
+
+# Evaluation configuration
+evaluation:
+  use_uncertainty: false
+  mc_samples: 100
+  ensemble_models: 5
+  tta_enabled: false  # Test Time Augmentation
+
+# Experiment tracking
+experiment:
+  name: "mri_classification_base"
+  tags: ["baseline", "efficientnet", "weighted_ce"]
+  notes: "Baseline experiment with EfficientNet-B0"
