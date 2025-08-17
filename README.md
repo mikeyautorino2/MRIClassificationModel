@@ -216,7 +216,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🙏 Acknowledgments
 
-- Dataset providers for the MRI brain tumor dataset
-- PyTorch and torchvision teams
-- Medical imaging community for best practices
-- Open source contributors
+- Dataset providers for the MRI brain tumor dataset from kaggle
