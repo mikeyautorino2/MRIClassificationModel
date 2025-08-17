@@ -1,5 +1,8 @@
 # MRI Brain Tumor Classification & Segmentation
 
+This is a project I have been working on for about three months- decided to make it into a public repo, enjoy!
+
+
 A comprehensive deep learning pipeline for MRI brain tumor classification and segmentation with uncertainty quantification and explainability features.
 
 ## 🎯 Features
